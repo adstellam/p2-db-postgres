@@ -1,0 +1,3 @@
+CREATE SCHEMA norma;
+CREATE SCHEMA stout;
+CREATE SCHEMA adapt;

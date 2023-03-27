@@ -1,0 +1,34 @@
+# syntax=docker/dockerfile:1
+FROM postgres:12
+
+# Modify PostgreSQL configuration to allow remote connections to the database.
+#RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf
+RUN echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
+
+# Add listen_addresses to /etc/postgresql/9.3/main/postgresql.conf.
+#RUN echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
+RUN echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
+
+# Set primary_conninfo, restore_command and archive_cleanup_command in prep for continuous restore
+RUN echo "primary_conninfo='host=54.241.248.194 port=5432 user=replication password=stout options=''-c wal_sender_timeout=5000'''" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "restore_command='cp /mnt/pg/archive/%f %p'" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "archive_cleanup_command='pg_archivecleanup /mnt/pg/archive %r'" >> /var/lib/postgresql/data/postgresql.conf
+
+# Create the empty file standby.signal in the container root so that it serves as a standby server
+RUN touch ./standby.signal
+
+# Install PostGIS (to install /usr/share/postgresql/12/extension/postgis.control)
+RUN apt-get update && apt-get install -y postgis postgresql-12-postgis-3-scripts
+
+# Copy plpsql function definitions to /sql/ (to execute with psql \i)
+COPY sql/* ./sql/
+
+# Copy .pgpass to ./ so that the pg_basebackup command can be executed by the user replication without password prompt
+COPY .pgpass ./ 
+
+# Copy an initdb shell to /docker-entrypoint-initdb.d/
+#RUN mkdir /docker-entrypoint-initdb.d
+COPY initdb-pollux.sh /docker-entrypoint-initdb.d/
+
+# Add VOLUMEs to hold db cluster and log
+VOLUME ["/var/lib/postgresql/data", "/var/log/postgresql"]

@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+FROM postgres:12
+
+# Modify PostgreSQL configuration to allow remote connections to the database.
+#RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf
+RUN echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
+
+# Add listen_addresses to /etc/postgresql/9.3/main/postgresql.conf.
+#RUN echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
+RUN echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
+
+# Set wal_level, wal_keep_segments, max_wal_senders and archive_command in prep for continous archiving
+RUN echo "wal_level=replica" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "wal_keep_segments=64" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "max_wal_senders=10" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "shared_preload_libraries=pg_cron" >> /var/lib/postgresql/data/postgresql.conf
+#RUN echo "cron.database_name=postgres" >> /var/lib/postgresql/data/postgresql.conf
+RUN echo "archive_command='test ! -f /mnt/pg/archive/%f && cp %p /mnt/pg/archive/%f'" 
+
+# Install PostGIS (to install /usr/share/postgresql/12/extension/postgis.control)
+RUN apt-get update && apt-get install -y postgis postgresql-12-postgis-3-scripts postgresql-12-cron
+
+# Copy plpsql function definitions to /sql/ (to execute with psql \i)
+COPY sql/* ./sql/
+
+# Copy an initdb shell to /docker-entrypoint-initdb.d/
+#RUN mkdir /docker-entrypoint-initdb.d
+COPY initdb-castor.sh /docker-entrypoint-initdb.d/
+
+# Add VOLUMEs to hold db cluster and log
+VOLUME ["/var/lib/postgresql/data", "/var/log/postgresql"]
