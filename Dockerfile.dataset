@@ -1,9 +1,0 @@
-# Development container pre-populated with data
-ARG silo_version=latest
-FROM gitlab.xxx:5050/analytics/silo:${silo_version}
-
-COPY pg_dump.sql /tmp/pg_dump.sql
-COPY initdb-from-dump.sh /docker-entrypoint-initdb.d/
-
-# Remove sql scripts so the init-castor.sh script doesn't create the tables we're loading from a dump anyway
-RUN rm /sql/*

@@ -9,7 +9,7 @@ psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_USER" <<-EOSQL
     GRANT connect ON database postgres TO api;
     GRANT select, insert, update, delete ON all tables IN schema public TO api;
     GRANT execute ON all functions IN schema public TO api;
-    CREATE USER replication WITH REPLICATION PASSWORD 'stout';
+    CREATE USER replication WITH REPLICATION PASSWORD 'adstellam';
     \i /sql/s_concat_trace.sql
     \i /sql/s_calc_distance.sql
     \i /spl/s_calc_avg_distance.sql

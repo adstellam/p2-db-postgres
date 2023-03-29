@@ -9,8 +9,8 @@ of database schemas, tables, views, and types.
 
 # Schemas
 The current database has four schemas:
-* public -
-* norma - Normalized tables
+* public - interim workspace
+* norma - normalized tables based on the AgGateway's ADAPT common object model
 * apiview - abridged views derived from the tables defined in the NORMA schema for the purpose of simplifying the Stout web app's API design
 * adapt - definition of types, enums, and views in compliance with the AgGateway's ADAPT common object model
 
@@ -20,12 +20,6 @@ This project includes PL/pgsql functions, procedures, and anonymous blocks in th
 The functions and procedures are in files the names of which are prefixed with s_ while anonymous
 blocks are prefixed with b_.
 
-# [pgadmin4](https://www.pgadmin.org/)
-* Started automatically when running docker-compose up.
-* Login using credentials defined in docker-compose
-* Add new server
-     * connection
-     * hostname: castor (primary db service name)
-     * port: 5432
-     * username: postgres
-     * password: defined in .env file.
+# pgadmin4
+
+Will be started when running docker-compose up.

@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION stout.insert_into_operation_data()
+CREATE OR REPLACE FUNCTION apiview.insert_into_operation_data()
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -15,12 +15,12 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER task_inserted
 AFTER INSERT ON norma.work_item_operations
 FOR EACH ROW
-EXECUTE FUNCTION stout.insert_into_operation_data();
+EXECUTE FUNCTION apiview.insert_into_operation_data();
 
 
 
 
-CREATE OR REPLACE FUNCTION stout.add_crop_analytics_data_partition()
+CREATE OR REPLACE FUNCTION apiview.add_crop_analytics_data_partition()
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -42,12 +42,12 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER crop_type_inserted
 AFTER INSERT ON norma.crop_types
 FOR EACH ROW
-EXECUTE FUNCTION stout.add_crop_analytics_data_partition();
+EXECUTE FUNCTION apiview.add_crop_analytics_data_partition();
 
 
 
 
-CREATE OR REPLACE FUNCTION stout.add_machine_obs_pos_telematics_data_partitions()
+CREATE OR REPLACE FUNCTION apiview.add_machine_obs_pos_telematics_data_partitions()
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -85,12 +85,12 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER device_element_inserted
 AFTER INSERT ON norma.device_elements
 FOR EACH ROW
-EXECUTE FUNCTION stout.add_machine_obs_pos_telematics_data_partitions();
+EXECUTE FUNCTION apiview.add_machine_obs_pos_telematics_data_partitions();
 
 
 
 
-CREATE OR REPLACE FUNCTION stout.insert_into_or_update_machine_uses()
+CREATE OR REPLACE FUNCTION apiview.insert_into_or_update_machine_uses()
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -133,7 +133,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER machine_obs_data_inserted
 AFTER INSERT ON norma.machine_obs_data
 FOR EACH ROW
-EXECUTE FUNCTION stout.insert_into_or_update_machine_uses();
+EXECUTE FUNCTION apiview.insert_into_or_update_machine_uses();
 
 
 
@@ -141,7 +141,7 @@ EXECUTE FUNCTION stout.insert_into_or_update_machine_uses();
 /* The followings are for possible future use. */
 
 /*
-CREATE OR REPLACE FUNCTION stout.update_crop_score()
+CREATE OR REPLACE FUNCTION apiview.update_crop_score()
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -165,11 +165,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER machine_obs_data_inserted
 AFTER INSERT ON norma.machine_obs_data
 FOR EACH ROW
-EXECUTE FUNCTION stout.update_crop_score();
+EXECUTE FUNCTION apiview.update_crop_score();
 */
 
 /*
-CREATE OR REPLACE FUNCTION stout.insert_crop_analytics_data() 
+CREATE OR REPLACE FUNCTION apiview.insert_crop_analytics_data() 
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -187,11 +187,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER crop_analytics_data_inserted
 BEFORE INSERT ON norma.crop_analytics_data
 FOR EACH ROW
-EXECUTE FUNCTION stout.insert_crop_analytics_data();
+EXECUTE FUNCTION apiview.insert_crop_analytics_data();
 */
 
 /*
-CREATE OR REPLACE FUNCTION stout.insert_device_element_obs_data() 
+CREATE OR REPLACE FUNCTION apiview.insert_device_element_obs_data() 
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -209,11 +209,11 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER device_element_obs_data_inserted
 BEFORE INSERT ON norma.device_element_obs_data
 FOR EACH ROW
-EXECUTE FUNCTION stout.insert_device_element_obs_data();
+EXECUTE FUNCTION apiview.insert_device_element_obs_data();
 */
 
 /*
-CREATE OR REPLACE FUNCTION stout.insert_device_element_telematics_data() 
+CREATE OR REPLACE FUNCTION apiview.insert_device_element_telematics_data() 
 RETURNS TRIGGER AS
 $$
 DECLARE
@@ -231,5 +231,5 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER device_element_telematics_data_inserted
 BEFORE INSERT ON norma.device_element_telematics_data
 FOR EACH ROW
-EXECUTE FUNCTION stout.insert_device_element_telematics_data();
+EXECUTE FUNCTION apiview.insert_device_element_telematics_data();
 */

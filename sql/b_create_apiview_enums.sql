@@ -1,4 +1,4 @@
-CREATE TYPE stout.api_resource_enum AS ENUM (
+CREATE TYPE apiview.api_resource_enum AS ENUM (
     'Job',
     'JobDTO',
     'Task',
@@ -27,7 +27,7 @@ CREATE TYPE stout.api_resource_enum AS ENUM (
     'RoleDTO'
 );
 
-CREATE TYPE stout.http_method_enum AS ENUM (
+CREATE TYPE apiview.http_method_enum AS ENUM (
     'GET',
     'POST',
     'PUT',
@@ -35,11 +35,11 @@ CREATE TYPE stout.http_method_enum AS ENUM (
     'DELETE'
 );
 
-CREATE TYPE stout.seed_type_enum AS ENUM (
+CREATE TYPE apiview.seed_type_enum AS ENUM (
 
 );
 
-CREATE TYPE stout.user_affiliation_category_enum AS ENUM (
+CREATE TYPE apiview.user_affiliation_category_enum AS ENUM (
     'Organization',
     'Grower',
     'Contractor'

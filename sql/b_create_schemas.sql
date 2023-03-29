@@ -1,3 +1,3 @@
 CREATE SCHEMA norma;
-CREATE SCHEMA stout;
+CREATE SCHEMA apiview;
 CREATE SCHEMA adapt;
